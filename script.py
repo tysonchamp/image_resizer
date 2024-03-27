@@ -2,7 +2,6 @@ import os
 import sys
 from PIL import Image, ImageOps, ExifTags
 
-# write a code to modify all images within a folder
 # image size 600*400px
 # default backgroud color is #000000
 # image output format is jpg
