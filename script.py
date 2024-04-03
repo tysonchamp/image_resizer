@@ -1,6 +1,7 @@
 import os
 import sys
 from PIL import Image, ImageOps, ExifTags
+from colorthief import ColorThief
 
 # image size 600*400px
 # default backgroud color is #000000
@@ -8,8 +9,12 @@ from PIL import Image, ImageOps, ExifTags
 # image output quality is 50%
 # image should not be streached
 
-def resize_image(image_path, output_path, size=(600, 400), color=(0, 0, 0), format='JPEG', quality=50):
+
+def resize_image(image_path, output_path, size=(600, 400), format='JPEG', quality=60):
     image = Image.open(image_path)
+
+    # Get the dominant color of the image
+    dominant_color = image.resize((1, 1)).getpixel((0, 0))
 
     # Fix orientation using EXIF data
     try:
@@ -31,8 +36,8 @@ def resize_image(image_path, output_path, size=(600, 400), color=(0, 0, 0), form
     # Resize the image without cropping
     image.thumbnail(size, Image.ANTIALIAS)
 
-    # Create a new image with the desired size and black background
-    new_image = Image.new('RGB', size, color)
+    # Create a new image with the desired size and dominant color background
+    new_image = Image.new('RGB', size, dominant_color)
 
     # Calculate the position to paste the image onto the new image
     position = ((new_image.width - image.width) // 2, (new_image.height - image.height) // 2)
@@ -42,7 +47,7 @@ def resize_image(image_path, output_path, size=(600, 400), color=(0, 0, 0), form
 
     # Convert RGBA images to RGB
     if new_image.mode in ('RGBA', 'LA'):
-        background = Image.new(new_image.mode[:-1], new_image.size, color)
+        background = Image.new(new_image.mode[:-1], new_image.size, dominant_color)
         background.paste(new_image, new_image.split()[-1])
         new_image = background
 
