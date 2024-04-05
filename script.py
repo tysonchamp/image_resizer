@@ -10,7 +10,7 @@ from colorthief import ColorThief
 # image should not be streached
 
 
-def resize_image(image_path, output_path, size=(600, 400), format='JPEG', quality=60):
+def resize_image(image_path, output_path, size=(600, 400), format='JPEG', quality=50):
     image = Image.open(image_path)
 
     # Get the dominant color of the image
