@@ -4,10 +4,8 @@ from PIL import Image, ImageOps, ExifTags
 from colorthief import ColorThief
 
 # image size 600*400px
-# default backgroud color is #000000
-# image output format is jpg
+# default backgroud color is based on the dominated color of the image
 # image output quality is 50%
-# image should not be streached
 
 
 def resize_image(image_path, output_path, size=(600, 400), format='JPEG', quality=50):
